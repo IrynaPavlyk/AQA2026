@@ -26,7 +26,7 @@ let allInputs = document.querySelectorAll('input');
 console.log(allInputs ? "All input fields are found" : "Input fields are NOT found");
 
 //5. Find the link that is responsible for going to the map to find a place to buy eco-bags.
-let linkToEcoBug =  document.querySelector("a[href='#/places']");
+let linkToEcoBug = document.querySelector("a[href='#/places']");
 console.log(linkToEcoBug ? "The link is found" : "The link is NOT found");
 
 //Medium level
@@ -40,7 +40,7 @@ console.log(linkToEcoBug ? "The link is found" : "The link is NOT found");
 let allImages = document.querySelectorAll('img');
 let count = 0;
 for (let image in allImages) {
-    if ((allImages[image]).height > 300){
+    if ((allImages[image]).height > 300) {
         console.log(allImages[image]);
         count++;
     }
@@ -70,7 +70,6 @@ let unique = myArray.filter((item, i, ar) =>
 
 console.log("Кількість унікальних кольорів:", unique.length);
 
-
 //Task 3
 //Find all button elements present on a specified web page and output the cumulative quantity of these buttons.
 let allButtons = document.querySelectorAll('button');
@@ -90,53 +89,51 @@ console.log(myArray);
 //Utilizing CSS selectors in conjunction with JavaScript, identify all the social media button elements
 // present on a specified web page and determine their respective destination URLs.
 
-    // 1. Ключові слова для пошуку соцмереж
-    const platforms = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 'pinterest', 'tiktok', 'telegram'];
+// 1. Ключові слова для пошуку соцмереж
+const platforms = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 'pinterest', 'tiktok', 'telegram'];
 
-    // 2. CSS-селектори для пошуку посилань та кнопок
-    const selectors = [
-        'a[href*="facebook.com"]', 'a[href*="twitter.com"]', 'a[href*="x.com"]',
-        'a[href*="instagram.com"]', 'a[href*="linkedin.com"]', 'a[href*="youtube.com"]',
-        'a[href*="pinterest.com"]', 'a[href*="tiktok.com"]', 'a[href*="t.me"]',
-        '[class*="social" i]', '[id*="social" i]',
-        'button[class*="fb" i]', 'button[class*="tw" i]', 'button[class*="ig" i]', 'button[class*="chat-pop-up"]'
-    ];
+// 2. CSS-селектори для пошуку посилань та кнопок
+const selectors = [
+    'a[href*="facebook.com"]', 'a[href*="twitter.com"]', 'a[href*="x.com"]',
+    'a[href*="instagram.com"]', 'a[href*="linkedin.com"]', 'a[href*="youtube.com"]',
+    'a[href*="pinterest.com"]', 'a[href*="tiktok.com"]', 'a[href*="t.me"]',
+    '[class*="social" i]', '[id*="social" i]',
+    'button[class*="fb" i]', 'button[class*="tw" i]', 'button[class*="ig" i]', 'button[class*="chat-pop-up"]'
+];
 
-    // 3. Знаходимо всі елементи за селекторами
-    const elements = document.querySelectorAll(selectors.join(','));
-    const results = [];
+// 3. Знаходимо всі елементи за селекторами
+const elements = document.querySelectorAll(selectors.join(','));
+const results = [];
 
-    elements.forEach(el => {
-        let url = '';
+elements.forEach(el => {
+    let url = '';
 
-        // Перевіряємо, чи це посилання <a>, чи кнопка з дата-атрибутом/текстом
-        if (el.tagName === 'A') {
-            url = el.href;
-        } else {
-            // Іноді кнопки мають URL у дата-атрибутах або всередині тегу <a>, що захований в них
-            const nestedLink = el.querySelector('a');
-            url = nestedLink ? nestedLink.href : (el.dataset.url || el.getAttribute('formaction') || 'Кнопка без прямого URL');
-        }
+    // Перевіряємо, чи це посилання <a>, чи кнопка з дата-атрибутом/текстом
+    if (el.tagName === 'A') {
+        url = el.href;
+    } else {
+        // Іноді кнопки мають URL у дата-атрибутах або всередині тегу <a>, що захований в них
+        const nestedLink = el.querySelector('a');
+        url = nestedLink ? nestedLink.href : (el.dataset.url || el.getAttribute('formaction') || 'Кнопка без прямого URL');
+    }
 
-        // Визначаємо платформу на основі тексту, класів або URL
-        const stringToTest = `${url} ${el.className} ${el.id}`.toLowerCase();
-        const platform = platforms.find(p => stringToTest.includes(p)) || 'unknown-social';
+    // Визначаємо платформу на основі тексту, класів або URL
+    const stringToTest = `${url} ${el.className} ${el.id}`.toLowerCase();
+    const platform = platforms.find(p => stringToTest.includes(p)) || 'unknown-social';
 
-        // Ігноруємо порожні або нерелевантні посилання (наприклад, просто "share" без URL)
-        if (url && url !== window.location.href && !url.startsWith('#')) {
-            results.push({
-                element: el,
-                platform: platform,
-                destinationUrl: url
-            });
-        }
-    });
+    // Ігноруємо порожні або нерелевантні посилання (наприклад, просто "share" без URL)
+    if (url && url !== window.location.href && !url.startsWith('#')) {
+        results.push({
+            element: el,
+            platform: platform,
+            destinationUrl: url
+        });
+    }
+});
 
-    // Прибираємо дублікати за URL
-    const uniqueResults = Array.from(new Map(results.map(item => [item.destinationUrl, item])).values());
-    console.log(uniqueResults);
-
-
+// Прибираємо дублікати за URL
+const uniqueResults = Array.from(new Map(results.map(item => [item.destinationUrl, item])).values());
+console.log(uniqueResults);
 
 //Hard level
 //Task 6
@@ -154,7 +151,7 @@ let text = monthYear.innerText;
 
 let day = document.querySelector(" div.day-number.current-number.ng-star-inserted").innerText;
 
-let year = text.slice(text.length-4, text.length);
+let year = text.slice(text.length - 4, text.length);
 
 let month;
 const monthMatch = text.match(/[A-Za-z]+/);
@@ -165,11 +162,11 @@ console.log(data);
 //2.
 let buttonPrevious = document.querySelector("button img.arrow-previous");
 console.log(buttonPrevious);
+
 let buttonNext = document.querySelector("button img.arrow-next");
 console.log(buttonNext);
 //3.
-
 let AllDaysName = document.querySelectorAll("*.day-name");
-for (day in AllDaysName){
+for (day in AllDaysName) {
     console.log((AllDaysName[day]).innerText);
 }
