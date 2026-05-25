@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Замовлення доставки</title>
+    <style>
+        body {
+            background-color: #eef2f5;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 420px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Оформлення доставки</h2>
+    <form id="orderForm">
+        <label for="name">Ім’я отримувача</label>
+        <input type="text" id="name" placeholder="Ваше ім’я">
+        <div id="nameError" class="error"></div>
+
+        <label for="phone">Номер телефону</label>
+        <input type="text" id="phone" placeholder="+380501234567">
+        <div id="phoneError" class="error"></div>
+
+        <label for="address">Адреса доставки</label>
+        <input type="text" id="address" placeholder="вул. Шевченка, 10">
+        <div id="addressError" class="error"></div>
+
+        <label for="delivery">Спосіб доставки</label>
+        <select id="delivery">
+            <option value="">-- Оберіть спосіб доставки --</option>
+            <option value="courier">Кур'єр</option>
+            <option value="pickup">Самовивіз</option>
+            <option value="post">Пошта</option>
+        </select>
+        <div id="deliveryError" class="error"></div>
+
+        <button type="button" class="btn" onclick="validateOrder()">Оформити замовлення</button>
+    </form>
+</div>
+
+<script>
+    function validateName(name) {
+        const nameError = document.getElementById('nameError');
+        nameError.textContent = '';
+
+        if (!name) {
+            nameError.textContent = 'Введіть ім’я отримувача.';
+            return false;
+        }
+
+        const nameRegex = /^[А-Яа-яЁёІіЇїЄєҐґA-Za-z\s'-]+$/u;
+        if (!nameRegex.test(name)) {
+            nameError.textContent = 'Ім’я може містити лише літери, апостроф, пробіли або дефіс.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validatePhone(phone) {
+        const phoneError = document.getElementById('phoneError');
+        phoneError.textContent = '';
+
+        if (!phone) {
+            phoneError.textContent = 'Введіть номер телефону.';
+            return false;
+        }
+
+        const phoneRegex = /^\+380\d{9}$/;
+        if (!phoneRegex.test(phone)) {
+            phoneError.textContent = 'Номер телефону має бути у форматі +380XXXXXXXXX.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateAddress(address) {
+        const addressError = document.getElementById('addressError');
+        addressError.textContent = '';
+
+        if (!address) {
+            addressError.textContent = 'Введіть адресу доставки.';
+            return false;
+        }
+
+        const hasDigit = /\d/.test(address);
+        if (address.length < 10 || !hasDigit) {
+            addressError.textContent = 'Адреса повинна бути не менше 10 символів і містити хоча б одну цифру.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateDelivery(delivery) {
+        const deliveryError = document.getElementById('deliveryError');
+        deliveryError.textContent = '';
+
+        if (!delivery) {
+            deliveryError.textContent = 'Оберіть спосіб доставки.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateOrder() {
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const delivery = document.getElementById('delivery').value;
+        const form = document.getElementById('orderForm');
+
+        const isNameValid = validateName(name);
+        const isPhoneValid = validatePhone(phone);
+        const isAddressValid = validateAddress(address);
+        const isDeliveryValid = validateDelivery(delivery);
+
+        if (isNameValid && isPhoneValid && isAddressValid && isDeliveryValid) {
+            alert('Замовлення успішно оформлено!');
+            form.reset();
+        }
+    }
+</script>
+</body>
+</html>

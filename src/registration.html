@@ -1,0 +1,219 @@
+<!--Create a script to validate a web form. Your script should include the following functionalities and checks:-->
+
+<!--Required Fields Validation: Ensure that all required fields are filled out. For example, fields like 'Name', 'Email', and 'Password' should not be left empty.-->
+
+<!--Email Format Validation: Validate the email address format to ensure it meets standard email formatting (e.g., user@example.com). Use regular expressions to check if the email entered by the user is in the correct format.-->
+
+<!--Password Strength Check: Implement a password strength validator. The password should meet certain criteria to be considered strong, such as a minimum length (e.g., 8 characters), the inclusion of uppercase and lowercase letters, numbers, and special characters.-->
+
+<!--Confirm Password Matching: If there is a 'Confirm Password' field, check that it matches the 'Password' field.-->
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Реєстрація</title>
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Реєстрація</h2>
+    <form id="registrationForm">
+        <label for="name">Ім'я</label>
+        <input type="text" id="name" placeholder="Введіть ваше ім'я">
+        <div id="nameError" class="error"></div>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="example@email.com">
+        <div id="emailError" class="error"></div>
+
+        <label for="password">Пароль</label>
+        <input type="password" id="password" placeholder="Мін. 8 символів">
+        <div id="passwordError" class="error"></div>
+
+        <label for="confirmPassword">Підтвердити пароль</label>
+        <input type="password" id="confirmPassword" placeholder="Повторіть пароль">
+        <div id="confirmPasswordError" class="error"></div>
+
+        <button type="button" class="btn" onclick="validateForm()">Зареєструватися</button>
+    </form>
+</div>
+
+<script>
+    function validateName(name) {
+        const nameError = document.getElementById('nameError');
+        nameError.textContent = '';
+
+        if (!name) {
+            nameError.textContent = 'Введіть ім’я отримувача.';
+            return false;
+        }
+
+        const nameRegex = /^[А-Яа-яЁёІіЇїЄєҐґA-Za-z\s'-]+$/u;
+        if (!nameRegex.test(name.trim())) {
+            nameError.textContent = 'Ім’я може містити лише літери, апостроф, пробіли або дефіс.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateEmail(email) {
+        const emailError = document.getElementById('emailError');
+        emailError.textContent = '';
+
+        if (!email) {
+            emailError.textContent = 'Введіть вашу електронну адресу.';
+            return false;
+        }
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+        if (!emailRegex.test(email.trim())) {
+            emailError.textContent = 'Невірний формат Вашого email.';
+            return false;
+        }
+
+        return true;
+
+    }
+
+    function validatePassword(password) {
+        const passwordError = document.getElementById('passwordError');
+        passwordError.textContent = '';
+
+        if (!password) {
+            passwordError.textContent = 'Введіть пароль.';
+            return false;
+        }
+        if (password.length < 8) {
+            passwordError.textContent = 'Пароль повинен містити не менше 8 символів.';
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            passwordError.textContent = 'Пароль повинен містити хоча б одну велику літеру.';
+            return false;
+        }
+        if (!/[a-z]/.test(password)) {
+            passwordError.textContent = 'Пароль повинен містити хоча б одну маленьку літеру.';
+            return false;
+        }
+        if (!/[0-9]/.test(password)) {
+            passwordError.textContent = 'Пароль повинен містити хоча б одну цифру.';
+            return false;
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            passwordError.textContent = 'Пароль повинен містити хоча б один спеціальный символ.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateConfirmPassword(password, confirmPassword) {
+        const confirmPasswordError = document.getElementById('confirmPasswordError');
+        confirmPasswordError.textContent = '';
+
+        if (!confirmPassword) {
+            confirmPasswordError.textContent = 'Підтвердіть ваш пароль.';
+            return false;
+        }
+
+        if (password != confirmPassword) {
+            confirmPasswordError.textContent = 'Паролі не співпадають.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateForm() {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+        const form = document.getElementById('registrationForm');
+
+        const isNameValid = validateName(name);
+        const isEmailValid = validateEmail(email);
+        const isPasswordValid = validatePassword(password);
+        const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
+
+        if (isNameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
+            alert('Реєстрацію завершено!');
+            form.reset();
+        }
+    }
+
+</script>
+</body>
+</html>
